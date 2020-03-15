@@ -5,18 +5,9 @@ let geometry, material, cubes = [];
 
 init();
 animate();
-
-function createCube (geometry, material, x) {
-    const cube = new THREE.Mesh( geometry, material );
-    scene.add( cube );
-
-    cube.position.x = x;
-
-    return cube;
-}
+window.addEventListener( 'resize', onWindowResize );
 
 function init() {
-
     camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 10 );
     camera.position.z = 5;
 
@@ -40,5 +31,25 @@ function animate() {
     });
 
     renderer.render( scene, camera );
+}
 
+function createCube (geometry, material, x) {
+    const cube = new THREE.Mesh( geometry, material );
+    scene.add( cube );
+
+    cube.position.x = x;
+
+    return cube;
+}
+
+function onWindowResize() {
+    // set the aspect ratio to match the new browser window aspect ratio
+    camera.aspect = window.innerWidth / window.innerHeight;
+
+
+    // update the camera's frustum
+    camera.updateProjectionMatrix();
+
+    // update the size of the renderer AND the canvas
+    renderer.setSize( window.innerWidth, window.innerHeight );
 }
